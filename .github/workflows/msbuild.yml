@@ -28,7 +28,7 @@ jobs:
         - ReleaseAoi
         - ReleaseKureiKei
         - ReleaseShizuku
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
     - uses: actions/checkout@v4
@@ -49,4 +49,11 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v4.3.3
       with:
-        path: Build/
+        name: ${{ matrix.arch }}-${{ matrix.variant }}
+        path: |
+          bin/
+          Build/
+          Release/
+          Releases/
+          Rugenia/
+          ../Rugenia/
