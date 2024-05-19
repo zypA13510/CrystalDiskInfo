@@ -48,7 +48,7 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{ matrix.variant }} /p:Platform=${{ matrix.platform.arch }} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild ${{env.SOLUTION_FILE_PATH}} /m /p:Configuration=${{ matrix.variant }} /p:Platform=${{ matrix.platform.arch }} /p:OutDir=bin
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4.3.3
@@ -57,13 +57,3 @@ jobs:
         path: |
           bin/
           build/
-          Build/
-          out/
-          output/
-          Out/
-          Output/
-          release/
-          Release/
-          releases/
-          Releases/
-          Rugenia/
