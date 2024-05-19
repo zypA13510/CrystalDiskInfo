@@ -18,17 +18,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch:
-        # - ARM
-        # - ARM64
-        - Win32
-        - x64
+        platform:
+        # - arch: ARM
+        #   os: windows-latest
+        # - arch: ARM64
+        #   os: windows-latest
+        - arch: Win32
+          os: windows-2019
+        - arch: x64
+          os: windows-latest
         variant:
         - Release
         - ReleaseAoi
         - ReleaseKureiKei
         - ReleaseShizuku
-    runs-on: windows-2019
+    runs-on: ${{ matrix.platform.os }}
 
     steps:
     - uses: actions/checkout@v4
@@ -44,16 +48,22 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{ matrix.variant }} /p:Platform=${{ matrix.arch }} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{ matrix.variant }};Platform=${{ matrix.platform.arch }} ${{env.SOLUTION_FILE_PATH}}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4.3.3
       with:
-        name: ${{ matrix.arch }}-${{ matrix.variant }}
+        name: ${{ matrix.platform.arch }}-${{ matrix.variant }}
         path: |
           bin/
+          build/
           Build/
+          out/
+          output/
+          Out/
+          Output/
+          release/
           Release/
+          releases/
           Releases/
           Rugenia/
-          ../Rugenia/
